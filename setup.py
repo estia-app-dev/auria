@@ -7,5 +7,6 @@ setup(
     description='Auria package',
     packages=find_packages(),
     install_requires=[
+        'flask'
     ],
 )
