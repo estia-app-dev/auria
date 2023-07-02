@@ -4,7 +4,7 @@ from abc import ABC
 from datetime import date
 from random import choice, randint
 
-from utils.TextFormatUtils import TextFormatUtils
+from auria.utils.TextFormatUtils import TextFormatUtils
 
 
 class RandomUtils(ABC):

@@ -3,8 +3,8 @@ from typing import Union, Dict, List
 
 from sqlalchemy.orm import Session
 
-from misc.JsonSchemaValidator import JsonSchemaValidator
-from utils.DateUtils import DateUtils
+from auria.misc.JsonSchemaValidator import JsonSchemaValidator
+from auria.utils.DateUtils import DateUtils
 
 
 class Handler(ABC):

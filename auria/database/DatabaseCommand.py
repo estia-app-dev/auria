@@ -1,4 +1,4 @@
-from utils.SubProcessUtils import SubProcessUtils
+from auria.utils.SubProcessUtils import SubProcessUtils
 
 
 class DatabaseCommand:

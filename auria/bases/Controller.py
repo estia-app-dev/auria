@@ -3,8 +3,8 @@ from typing import Optional, Dict
 
 from flask import request, jsonify
 
-from utils.ApiUtils import ApiUtils
-from utils.TraceUtils import TraceUtils
+from auria.utils.ApiUtils import ApiUtils
+from auria.utils.TraceUtils import TraceUtils
 
 
 class AuriaController(ABC):

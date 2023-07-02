@@ -2,7 +2,7 @@ from typing import Union, Dict, List
 
 from jsonschema import FormatChecker, Draft7Validator, ValidationError
 
-from AuriaException import JsonSchemaException
+from auria.AuriaException import JsonSchemaException
 
 
 class JsonSchemaValidator:

@@ -1,6 +1,6 @@
 from abc import ABC
 
-from utils.DateUtils import DateFormat, DateUtils
+from auria.utils.DateUtils import DateFormat, DateUtils
 
 
 class TextFormatUtils(ABC):

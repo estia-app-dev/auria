@@ -5,7 +5,7 @@ from typing import Dict, Union
 
 from flask import request, Response, make_response
 
-from utils.RandomUtils import RandomUtils
+from auria.utils.RandomUtils import RandomUtils
 
 
 class ApiUtils(ABC):
