@@ -14,5 +14,6 @@ setup(
         'pycryptodome',
         'requests',
         'pillow',
+        'firebase_admin'
     ],
 )
