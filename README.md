@@ -12,5 +12,4 @@ pipreqs C:\Users\nidal\Documents\Dev\Projects\Auria --force
 ```
 pip install git+https://github.com/estia-app-dev/auria-python
 pip uninstall auria
-pip install --upgrade auria
 ```
