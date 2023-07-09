@@ -3,9 +3,9 @@ from auria.utils.SubProcessUtils import SubProcessUtils
 
 class DatabaseCommand:
 
-  def __init__(self, dbusername: str, dbname: str):
-    self.dbusername = dbusername
+  def __init__(self, dbname: str, dbusername: str):
     self.dbname = dbname
+    self.dbusername = dbusername
 
   def createDb(self):
     return SubProcessUtils.executeAndWait([

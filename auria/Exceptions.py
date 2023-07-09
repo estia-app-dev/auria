@@ -1,6 +1,6 @@
 from typing import List, Optional, Dict
 
-from AuriaEnums import ExceptionLevel
+from auria.Enums import ExceptionLevelEnum
 
 
 class AuriaBaseException(Exception):
@@ -15,9 +15,9 @@ class ValueException(AuriaBaseException):
 
 class AppException(AuriaBaseException):
 
-  def __init__(self, message: str, level: ExceptionLevel = ExceptionLevel.ERROR):
+  def __init__(self, message: str, level: ExceptionLevelEnum = ExceptionLevelEnum.ERROR):
     self.message: str = message
-    self.level: ExceptionLevel = level
+    self.level: ExceptionLevelEnum = level
 
 
 class JsonSchemaException(AuriaBaseException):
@@ -44,3 +44,14 @@ class ApiException(AuriaBaseException):
 
 class ApiAuthError(AppException):
   """Erreur gérée côté client pour le basic ou le bearer"""
+
+
+class UnauthorizedAdminException(AuriaBaseException):
+  """Quelqu'un essaie d'acceder à la console d'admin_api"""
+
+  def __init__(self, message: str):
+    self.message: str = message
+
+
+class AdminApiException(ApiException):
+  pass
