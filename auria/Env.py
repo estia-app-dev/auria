@@ -43,6 +43,17 @@ class Env(ABC):
     os.environ['E_DB_PASSWORD'] = dbPassword
 
   @staticmethod
+  def setApiVars(basicAuthUsername: str, basicAuthPassword: str, minVersion: int):
+    Env.upsertRequiredVar('E_BASIC_AUTH_USERNAME', basicAuthUsername)
+    Env.upsertRequiredVar('E_BASIC_AUTH_PASSWORD', basicAuthPassword)
+    Env.upsertRequiredVar('E_API_MIN_VERSION', str(minVersion))
+
+  @staticmethod
+  def setApiTokenVars(JWTSecret: str, JWTAesKey: str):
+    Env.upsertRequiredVar('E_JWT_SECRET', JWTSecret)
+    Env.upsertRequiredVar('E_JWT_CONTENT_AES_KEY', JWTAesKey)
+
+  @staticmethod
   def upsertRequiredVar(key: str, value):
     if key not in Env.REQUIRED_VARS:
       Env.REQUIRED_VARS.append(key)
@@ -91,6 +102,30 @@ class Env(ABC):
                       db_password=Env.getDbPassword(),
                       db_host=Env.getDbHost(),
                       db_name=Env.getDbName())
+
+  ######################
+  # API
+  ######################
+
+  @staticmethod
+  def getApiBasicAuthUsername() -> str:
+    return os.getenv('E_BASIC_AUTH_USERNAME', None)
+
+  @staticmethod
+  def getApiBasicAuthPassword() -> str:
+    return os.getenv('E_BASIC_AUTH_PASSWORD', None)
+
+  @staticmethod
+  def getApiMinVersion() -> float:
+    return float(os.getenv('E_API_MIN_VERSION', 0))
+
+  @staticmethod
+  def getJWTSecret() -> str:
+    return os.getenv('E_JWT_SECRET', None)
+
+  @staticmethod
+  def getJWTContentAesKey() -> str:
+    return os.getenv('E_JWT_CONTENT_AES_KEY', None)
 
   #######################################################
   #######################################################

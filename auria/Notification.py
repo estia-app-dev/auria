@@ -1,7 +1,8 @@
+from firebase_admin.messaging import UnregisteredError
 from sqlalchemy.orm import Session
 
 from auria.Enums import AppErrorTagEnum
-from auria.Env import Env
+from auria.Exceptions import AppException
 from auria.database.factories.AppErrorLogFactory import AppErrorLogFactory
 from auria.database.factories.NotificationLogFactory import NotificationLogFactory
 from auria.external_services.firebase.messaging.FCMMessage import FCMMessage
@@ -15,32 +16,18 @@ class Notification:
     self.forTesting: bool = forTesting
 
   def send(self, message: FCMMessage):
-    if message.token is None:
-      self.db_AddNotificationLog(message)
-      pass
-
-    # On log la notification
-    self.db_AddNotificationLog(message)
-
-    # On envoi la notification
     try:
+      if message.token is None:
+        raise AppException('FirebaseToken is empty')
+
+      self.dbSession.add(NotificationLogFactory.create(message))
       FirebaseMessagingApi.send(message, forTesting=self.forTesting)
-    except BaseException:
-      if Env.inDevMode():
-        raise
-      self.db_AddErrorLog(e)
 
-  def db_AddNotificationLog(self, message: FCMMessage):
-    try:
-      notificationLog = NotificationLogFactory.create(message)
-      self.dbSession.add(notificationLog)
-    except BaseException:
-      if Env.inDevMode():
-        raise
+    except UnregisteredError:  # Le user à désinstallé l'app, osef on ne log pas
+      pass
+    except Exception as e:
+      self._db_AddErrorLog(e, message)
 
-  def db_AddErrorLog(self, e):
-    try:
-      AppErrorLogFactory.createExceptionLog(e, tag=AppErrorTagEnum.NOTIFICATION)
-    except BaseException as e:
-      if Env.inDevMode():
-        raise e
+  def _db_AddErrorLog(self, e, message: FCMMessage):
+    appLog = AppErrorLogFactory.createExceptionLog(e, tag=AppErrorTagEnum.NOTIFICATION, user_id=message.userId, body=message.__dict__)
+    self.dbSession.add(appLog)

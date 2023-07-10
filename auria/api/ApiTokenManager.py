@@ -22,7 +22,7 @@ class AppTokenManager:
     token = {
       'id': RandomUtils.uuid(),  # Ne sert à rien, juste pour embrouiller celui qui lit le jwt
       'iss': appName,  # Le jeton est délivrée par l’application Estia
-      'iat': DateUtils.now()  # Le timestamp à partir duquel le jeton a été émis
+      'iat': DateUtils.now(),  # Le timestamp à partir duquel le jeton a été émis
     }
 
     return self.encode(token.update(tokenData))
