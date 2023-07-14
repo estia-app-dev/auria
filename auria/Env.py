@@ -12,6 +12,8 @@ class Env(ABC):
   REQUIRED_VARS = [
     'E_ENV',
     'E_DEBUG',
+    'E_SERVER_TOKEN',
+    'E_SERVER_AES_KEY',
     'E_DB_HOST',
     'E_DB_USERNAME',
     'E_DB_PASSWORD',
@@ -30,9 +32,11 @@ class Env(ABC):
       Env.isEnvVarExists(envVar)
 
   @staticmethod
-  def setAppVars(devEnv: DevEnvironmentEnum, debug: bool):
+  def setAppVars(devEnv: DevEnvironmentEnum, debug: bool, serverToken: str, serverAesKey):
     os.environ['E_ENV'] = devEnv.value
     os.environ['E_DEBUG'] = str(debug)
+    os.environ['E_SERVER_TOKEN'] = serverToken
+    os.environ['E_SERVER_AES_KEY'] = serverAesKey
 
   @staticmethod
   def setDbVars(host: str, dbName: str, dbUsername: str, dbPassword: str, echo: bool = False):
@@ -49,9 +53,8 @@ class Env(ABC):
     Env.upsertRequiredVar('E_API_MIN_VERSION', str(minVersion))
 
   @staticmethod
-  def setApiTokenVars(JWTSecret: str, JWTAesKey: str):
+  def setApiTokenVars(JWTSecret: str):
     Env.upsertRequiredVar('E_JWT_SECRET', JWTSecret)
-    Env.upsertRequiredVar('E_JWT_CONTENT_AES_KEY', JWTAesKey)
 
   @staticmethod
   def upsertRequiredVar(key: str, value):
@@ -70,6 +73,14 @@ class Env(ABC):
   @staticmethod
   def debug() -> bool:
     return TextFormatUtils.strToBool(os.getenv('E_DEBUG', False))
+
+  @staticmethod
+  def getServerToken() -> str:
+    return os.getenv('E_SERVER_TOKEN')
+
+  @staticmethod
+  def getServerAesKey() -> str:
+    return os.getenv('E_SERVER_AES_KEY')
 
   ######################
   # DATABASE
@@ -122,10 +133,6 @@ class Env(ABC):
   @staticmethod
   def getJWTSecret() -> str:
     return os.getenv('E_JWT_SECRET', None)
-
-  @staticmethod
-  def getJWTContentAesKey() -> str:
-    return os.getenv('E_JWT_CONTENT_AES_KEY', None)
 
   #######################################################
   #######################################################

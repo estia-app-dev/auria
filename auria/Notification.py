@@ -1,3 +1,5 @@
+from typing import List
+
 from firebase_admin.messaging import UnregisteredError
 from sqlalchemy.orm import Session
 
@@ -11,22 +13,22 @@ from auria.external_services.firebase.messaging.FirebaseMessagingApi import Fire
 
 class Notification:
 
-  def __init__(self, dbSession: Session, forTesting: bool = False):
+  def __init__(self, dbSession: Session):
     self.dbSession: Session = dbSession
-    self.forTesting: bool = forTesting
 
-  def send(self, message: FCMMessage):
-    try:
-      if message.token is None:
-        raise AppException('FirebaseToken is empty')
+  def send(self, FCMMessages: List[FCMMessage], forTesting: bool = False):
+    for message in FCMMessages:
+      try:
+        if message.token is None:
+          raise AppException('FirebaseToken is empty')
 
-      self.dbSession.add(NotificationLogFactory.create(message))
-      FirebaseMessagingApi.send(message, forTesting=self.forTesting)
+        self.dbSession.add(NotificationLogFactory.create(message))
+        FirebaseMessagingApi.send(message, forTesting=forTesting)
 
-    except UnregisteredError:  # Le user à désinstallé l'app, osef on ne log pas
-      pass
-    except Exception as e:
-      self._db_AddErrorLog(e, message)
+      except UnregisteredError:  # Le user à désinstallé l'app, osef on ne log pas
+        pass
+      except Exception as e:
+        self._db_AddErrorLog(e, message)
 
   def _db_AddErrorLog(self, e, message: FCMMessage):
     appLog = AppErrorLogFactory.createExceptionLog(e, tag=AppErrorTagEnum.NOTIFICATION, user_id=message.userId, body=message.__dict__)

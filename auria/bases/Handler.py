@@ -4,6 +4,7 @@ from typing import Union, Dict, List
 from sqlalchemy.orm import Session
 
 from auria.bases.HandlerLogger import HandlerLogger
+from auria.external_services.firebase.messaging.FCMMessage import FCMMessage
 from auria.misc.JsonSchemaValidator import JsonSchemaValidator
 from auria.utils.DateUtils import DateUtils
 
@@ -17,9 +18,10 @@ class Handler(ABC):
       raise TypeError('DbSession must be type of Session')
 
     self.dbSession: Session = dbSession
-    self.body: Union[Dict, List] = body
+    self.body: Union[Dict, List] = body  # request content
     self.now: int = DateUtils.now()
     self.logger = HandlerLogger(self.dbSession, className=self.__class__.__name__, body=body)
+    self.FCMMessages: List[FCMMessage] = []
 
   def getAttribute(self, key: str, silent: bool = True):
     if key not in self.body and not silent:

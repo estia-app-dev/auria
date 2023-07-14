@@ -2,9 +2,14 @@ from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from auria.Env import Env
+from auria.database.DatabaseCommand import DatabaseCommand
 
 
 class BaseService:
+
+  @staticmethod
+  def getDbCommand() -> DatabaseCommand:
+    return DatabaseCommand(Env.getDbName(), Env.getDbUserName())
 
   @staticmethod
   def getDbEngine(timeout=5) -> Engine:

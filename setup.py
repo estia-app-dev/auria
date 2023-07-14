@@ -14,6 +14,8 @@ setup(
         'pycryptodome',
         'requests',
         'pillow',
-        'firebase_admin'
+        'firebase_admin',
+        'geopy',
+        'pytest'
     ],
 )

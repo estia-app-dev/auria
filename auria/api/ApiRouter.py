@@ -1,10 +1,11 @@
 from time import sleep
 
-from flask import request, Blueprint
+from flask import request, Blueprint, Flask
 
 from auria.Enums import AppErrorTagEnum, ExceptionLevelEnum
 from auria.Env import Env
 from auria.Exceptions import ApiException, JsonSchemaException, AppException, ApiAuthError
+from auria.api.ApiExceptionManager import ApiExceptionManager
 from auria.bases.BaseService import BaseService
 from auria.database.SQLAlchemyDatabase import dbSessionScope
 from auria.database.factories.AppErrorLogFactory import AppErrorLogFactory
@@ -14,9 +15,18 @@ from auria.utils.TraceUtils import TraceUtils
 indexApi = Blueprint('indexApi', __name__)
 tokenApi = Blueprint('tokenApi', __name__)
 userApi = Blueprint('userApi', __name__)
+# --
+adminApi = Blueprint('adminApi', __name__)
 
 
 class ApiRouter:
+
+  @staticmethod
+  def createFlaskApp() -> Flask:
+    app = Flask(__name__)
+    ApiExceptionManager.addErrorHandlers(app)
+
+    return app
 
   @staticmethod
   def execute(func, **kwargs):

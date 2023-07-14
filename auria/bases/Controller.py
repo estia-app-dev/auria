@@ -9,7 +9,7 @@ from auria.Env import Env
 from auria.Exceptions import ApiAuthError, ApiException
 from auria.api.ApiTokenManager import AppTokenManager
 from auria.bases.BaseAppToken import BaseAppToken
-from auria.bases.BaseErrorCode import BaseErrorCode
+from auria.bases.BaseErrorCodes import BaseErrorCode
 from auria.utils.ApiUtils import ApiUtils
 from auria.utils.TraceUtils import TraceUtils
 
@@ -90,17 +90,5 @@ class BearerTokenController(Controller, ABC):
       self.appToken = AppTokenManager(secret=Env.getJWTSecret()).decode(appToken, verify=True)
     except Exception as e:
       if Env.inDevMode():
-        raise e
+        raise
       raise ApiAuthError('raiseIF_appTokenIsInvalid, appToken is not recognized')
-
-  @staticmethod
-  def sendNotification(dbSession, handlerResponse: Dict):
-    # Single
-    if 'notification' in handlerResponse:
-      NotificationSender.send(dbSession, notification=handlerResponse['notification'])
-      return
-
-    # Multiple
-    if 'notifications' in handlerResponse:
-      for notification in handlerResponse['notifications']:
-        NotificationSender.send(dbSession, notification=notification)

@@ -1,7 +1,9 @@
-from typing import List
+from typing import List, Dict
 
 from firebase_admin import auth
 from firebase_admin.auth import UserRecord, DeleteUsersResult
+
+from auria.utils.RandomUtils import RandomUtils
 
 
 class FirebaseAuthApi:
@@ -54,3 +56,10 @@ class FirebaseAuthApi:
   def getUserUidByEmail(email: str) -> UserRecord:
     # https://firebase.google.com/docs/reference/admin/python/firebase_admin.auth#get_user_by_email
     return auth.get_user_by_email(email)
+
+  @staticmethod
+  def createCustomToken(additionalClaims: Dict):
+    uid = RandomUtils.uuid()
+    additionalClaims['id'] = RandomUtils.uuid()  # Ne sert à rien, juste pour embrouiller celui qui lit le jwt
+
+    return auth.create_custom_token(uid, additionalClaims)
