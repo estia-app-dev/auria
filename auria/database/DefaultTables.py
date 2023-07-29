@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict, List
 
 from sqlalchemy import String, ForeignKey, SmallInteger, Text
 from sqlalchemy.orm import Mapped, mapped_column
@@ -45,3 +45,55 @@ class NotificationLog(SQLAlchemyBase):
   notification_type: Mapped[str] = mapped_column(SmallInteger(), nullable=False)
   token: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
   payload: Mapped[str] = mapped_column(Text(), nullable=False)
+
+
+class Setting(SQLAlchemyBase):
+  __tablename__ = 'settings'
+
+  key: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+  value: Mapped[str] = mapped_column(String(255), nullable=False)
+  description: Mapped[str] = mapped_column(String(255), nullable=False)
+
+  @classmethod
+  def get(cls, dbSession, key: str) -> str:
+    setting = dbSession \
+      .query(Setting.value) \
+      .filter(Setting.key == key) \
+      .one_or_none()
+
+    if setting is None:
+      raise Exception(key + ' setting key not found')
+    return setting.value
+
+  @classmethod
+  def gets(cls, dbSession, keys: List[str]) -> Dict:
+    rows = dbSession \
+      .query(Setting) \
+      .filter(Setting.key.in_(keys)) \
+      .all()
+
+    if len(rows) == 0:
+      raise Exception('Setting keys not found')
+
+    settings = {}
+    for setting in rows:
+      settings[setting.key] = setting.value
+    return settings
+
+  @classmethod
+  def getAll(cls, dbSession) -> Dict:
+    rows = dbSession \
+      .query(Setting) \
+      .all()
+
+    settings = {}
+    for setting in rows:
+      settings[setting.key] = setting.value
+    return settings
+
+  @classmethod
+  def set(cls, dbSession, key: str, value):
+    dbSession \
+      .query(Setting) \
+      .filter(Setting.key == key) \
+      .update({'value': value})
