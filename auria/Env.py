@@ -32,14 +32,14 @@ class Env(ABC):
       Env.isEnvVarExists(envVar)
 
   @staticmethod
-  def setAppVars(devEnv: DevEnvironmentEnum, debug: bool, serverToken: str, serverAesKey):
+  def defineProjectEnvironmentVars(devEnv: DevEnvironmentEnum, debug: bool, serverToken: str, serverAesKey):
     os.environ['E_ENV'] = devEnv.value
     os.environ['E_DEBUG'] = str(debug)
     os.environ['E_SERVER_TOKEN'] = serverToken
     os.environ['E_SERVER_AES_KEY'] = serverAesKey
 
   @staticmethod
-  def setDbVars(host: str, dbName: str, dbUsername: str, dbPassword: str, echo: bool = False):
+  def defineDatabaseEnvironmentVars(host: str, dbName: str, dbUsername: str, dbPassword: str, echo: bool = False):
     os.environ['E_DB_ECHO'] = str(echo)
     os.environ['E_DB_HOST'] = host
     os.environ['E_DB_NAME'] = dbName
@@ -47,7 +47,7 @@ class Env(ABC):
     os.environ['E_DB_PASSWORD'] = dbPassword
 
   @staticmethod
-  def setApiVars(basicAuthUsername: str, basicAuthPassword: str, minVersion: int):
+  def defineApiEnvironmentVars(basicAuthUsername: str, basicAuthPassword: str, minVersion: int):
     Env.upsertRequiredVar('E_BASIC_AUTH_USERNAME', basicAuthUsername)
     Env.upsertRequiredVar('E_BASIC_AUTH_PASSWORD', basicAuthPassword)
     Env.upsertRequiredVar('E_API_MIN_VERSION', str(minVersion))
@@ -61,6 +61,10 @@ class Env(ABC):
     if key not in Env.REQUIRED_VARS:
       Env.REQUIRED_VARS.append(key)
     os.environ[key] = value
+
+  @staticmethod
+  def addLanguages(languages: dict):
+    Env.AVAILABLE_LANGUAGES = languages
 
   ######################
   # ENVIRONMENT

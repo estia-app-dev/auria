@@ -6,7 +6,7 @@ from auria.Enums import AppErrorTagEnum, ExceptionLevelEnum
 from auria.Env import Env
 from auria.Exceptions import ApiException, JsonSchemaException, AppException, ApiAuthError
 from auria.api.ApiExceptionManager import ApiExceptionManager
-from auria.bases.BaseService import BaseService
+from auria.ServiceProvider import BaseService
 from auria.database.SQLAlchemyDatabase import dbSessionScope
 from auria.database.factories.AppErrorLogFactory import AppErrorLogFactory
 from auria.utils.ApiUtils import ApiUtils
@@ -56,9 +56,12 @@ class ApiRouter:
 
         # On log + COMMIT
         errorLog = AppErrorLogFactory.createApiLog(e,
-                                                   tag=AppErrorTagEnum.API_ERROR, ip=request.remote_addr,
-                                                   httpUrl=request.url, httpMethod=request.method,
-                                                   httpHeaders=ApiUtils.getHeaders(), httpBody=request.get_json(silent=True))
+                                                   tag=AppErrorTagEnum.API_ERROR,
+                                                   ip=request.remote_addr,
+                                                   httpUrl=request.url,
+                                                   httpMethod=request.method,
+                                                   httpHeaders=ApiUtils.getHeaders(),
+                                                   httpBody=request.get_json(silent=True))
         dbSession.add(errorLog)
         dbSession.commit()
 
