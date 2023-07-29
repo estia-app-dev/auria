@@ -23,3 +23,4 @@ class ServiceProvider:
   def openDbSession() -> Session:
     session = sessionmaker(bind=ServiceProvider.getDbEngine())
     return session()
+  

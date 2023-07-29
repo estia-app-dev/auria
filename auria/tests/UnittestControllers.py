@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from auria.Enums import ExceptionLevelEnum
 from auria.Exceptions import ApiAuthError, JsonSchemaException, ApiException, AppException
-from auria.bases.BaseErrorCodes import BaseErrorCode
+from auria.ErrorCodes import BaseErrorCode
 from auria.bases.Controller import BasicsAuthController, BearerTokenController
 
 

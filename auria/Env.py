@@ -157,6 +157,6 @@ class Env(ABC):
   #######################################################
 
   @staticmethod
-  def trace(*args, sep=' ', end='\n', file=None):
+  def trace(*args, sep=' ', end='\n', file=None): # Todo, move or remove (voir TraceUtils.debug)
     if Env.debug():
       TraceUtils.debug(*args, sep, end, file)

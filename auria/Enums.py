@@ -1,6 +1,6 @@
 from enum import Enum, IntEnum
 
-from auria.bases.ExtendedEnum import ExtendedIntEnum
+from auria.misc.ExtendedEnum import ExtendedIntEnum
 
 
 class DevEnvironmentEnum(Enum):

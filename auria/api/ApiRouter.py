@@ -5,8 +5,9 @@ from flask import request, Blueprint, Flask
 from auria.Enums import AppErrorTagEnum, ExceptionLevelEnum
 from auria.Env import Env
 from auria.Exceptions import ApiException, JsonSchemaException, AppException, ApiAuthError
+from auria.ServiceProvider import ServiceProvider
 from auria.api.ApiExceptionManager import ApiExceptionManager
-from auria.ServiceProvider import BaseService
+
 from auria.database.SQLAlchemyDatabase import dbSessionScope
 from auria.database.factories.AppErrorLogFactory import AppErrorLogFactory
 from auria.utils.ApiUtils import ApiUtils
@@ -41,7 +42,7 @@ class ApiRouter:
           print('Api Request ->', TraceUtils.json_print(request.json))
 
     # On enveloppe avec la connexion à la db
-    with dbSessionScope(BaseService.openDbSession()) as dbSession:
+    with dbSessionScope(ServiceProvider.openDbSession()) as dbSession:
       try:
         return func(dbSession).handle(**kwargs)
       except (ApiException, ApiAuthError):

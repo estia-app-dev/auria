@@ -1,5 +1,5 @@
 from auria.Lang import Lang
-from auria.bases.BaseConstants import BaseConstants
+from auria.Constants import BaseConstants
 
 
 class TestLang:

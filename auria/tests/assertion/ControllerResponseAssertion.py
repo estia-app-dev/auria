@@ -4,7 +4,7 @@ from typing import Optional, Dict
 from flask import Response
 
 from auria.Lang import Lang
-from auria.bases.BaseConstants import BaseConstants
+from auria.Constants import BaseConstants
 
 
 class ControllerResponseAssertion(ABC):

@@ -3,7 +3,7 @@ from typing import Union, List, Dict
 
 from auria.Env import Env
 from auria.Exceptions import AppException
-from auria.bases.BaseConstants import BaseConstants
+from auria.Constants import BaseConstants
 
 
 class Lang(ABC):

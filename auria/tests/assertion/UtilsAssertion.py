@@ -1,7 +1,7 @@
 from abc import ABC
 
 from auria.Lang import Lang
-from auria.bases.BaseConstants import BaseConstants
+from auria.Constants import BaseConstants
 from auria.utils.DateUtils import DateUtils
 
 

@@ -37,7 +37,7 @@ class AppToken:
     }
 
 
-class AppTokenManager:  # Pas utilisé
+class AppTokenManager:
 
   def __init__(self, secret: str):
     self.secret = secret
