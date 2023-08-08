@@ -31,11 +31,11 @@ class SQLAlchemyDb:
     )
 
   @staticmethod
-  def createDatabase(engine):
+  def createTables(engine):
     metadata = SQLAlchemyBase.metadata
     metadata.create_all(engine)
 
-
+  
 @contextmanager
 def dbSessionScope(session):
   try:

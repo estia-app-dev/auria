@@ -52,7 +52,7 @@ class Controller(ABC):
     return response
 
   @abstractmethod
-  def handle(self, **kwargs):
+  def execute(self, **kwargs):
     raise NotImplementedError
 
 
