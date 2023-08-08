@@ -5,7 +5,7 @@ from auria.Env import Env
 from auria.database.DatabaseCommand import DatabaseCommand
 
 
-class ServiceProvider:
+class ServiceProviderBase:
 
   @staticmethod
   def getDbCommand() -> DatabaseCommand:
@@ -21,6 +21,6 @@ class ServiceProvider:
 
   @staticmethod
   def openDbSession() -> Session:
-    session = sessionmaker(bind=ServiceProvider.getDbEngine())
+    session = sessionmaker(bind=ServiceProviderBase.getDbEngine())
     return session()
   

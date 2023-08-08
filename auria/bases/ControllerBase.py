@@ -13,7 +13,7 @@ from auria.utils.ApiUtils import ApiUtils
 from auria.utils.TraceUtils import TraceUtils
 
 
-class Controller(ABC):
+class ControllerBase(ABC):
 
   def __init__(self, dbSession: Session):
     self.dbSession: Session = dbSession
@@ -56,14 +56,14 @@ class Controller(ABC):
     raise NotImplementedError
 
 
-class BasicsAuthController(Controller, ABC):
+class BasicsAuthControllerBase(ControllerBase, ABC):
 
   def __init__(self, dbSession: Session):
     super().__init__(dbSession)
     ApiUtils.checkBasicsAuth(Env.getApiBasicAuthUsername(), Env.getApiBasicAuthPassword())
 
 
-class BearerTokenController(Controller, ABC):
+class BearerTokenControllerBase(ControllerBase, ABC):
 
   def __init__(self, dbSession: Session):
     super().__init__(dbSession)

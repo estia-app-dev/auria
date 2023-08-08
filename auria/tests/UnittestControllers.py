@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from auria.Enums import ExceptionLevelEnum
 from auria.Exceptions import ApiAuthError, JsonSchemaException, ApiException, AppException
 from auria.ErrorCodes import BaseErrorCode
-from auria.bases.Controller import BasicsAuthController, BearerTokenController
+from auria.bases.ControllerBase import BasicsAuthController, BearerTokenController
 
 
 # On créé un faux controller qui hérite de BasicsAuthController pour tester la class BasicsAuthController

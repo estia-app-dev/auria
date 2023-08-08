@@ -9,7 +9,7 @@ from auria.misc.JsonSchemaValidator import JsonSchemaValidator
 from auria.utils.DateUtils import DateUtils
 
 
-class Handler(ABC):
+class HandlerBase(ABC):
 
   def __init__(self, dbSession: Session, body: Union[Dict, List]):
     self._raiseIf_JsonSchemaIsInvalid(body)

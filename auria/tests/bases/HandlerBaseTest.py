@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Union, Dict, List
 
-from auria.ServiceProvider import BaseService
+from auria.bases.ServiceProviderBase import BaseService
 from auria.database.SQLAlchemyDatabase import dbSessionScope
 from auria.tests.assertion.ExceptionRaisedAssertion import raise_JsonSchemaException
 from auria.tests.bases.BaseTest import BaseTest

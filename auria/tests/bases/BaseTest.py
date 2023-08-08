@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.orm import Session
 
-from auria.ServiceProvider import BaseService
+from auria.bases.ServiceProviderBase import BaseService
 
 
 class BaseTest(ABC):

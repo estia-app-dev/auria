@@ -5,7 +5,7 @@ from flask import request, Blueprint, Flask
 from auria.Enums import AppErrorTagEnum, ExceptionLevelEnum
 from auria.Env import Env
 from auria.Exceptions import ApiException, JsonSchemaException, AppException, ApiAuthError
-from auria.ServiceProvider import ServiceProvider
+from auria.bases.ServiceProviderBase import ServiceProvider
 from auria.api.ApiExceptionManager import ApiExceptionManager
 
 from auria.database.SQLAlchemyDatabase import dbSessionScope

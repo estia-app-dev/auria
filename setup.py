@@ -12,6 +12,7 @@ setup(
         'pymysql',
         'jsonschema',
         'pycryptodome',
+        'cryptography',
         'requests',
         'pillow',
         'firebase_admin',
