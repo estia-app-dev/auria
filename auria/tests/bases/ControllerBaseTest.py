@@ -6,7 +6,6 @@ from flask import Response
 
 from auria.Enums import MobilePlatformEnum
 from auria.Env import Env
-from auria.api.ApiTokenManager import AppTokenManager
 from auria.tests.UnittestApiServer import flaskTestApp
 from auria.tests.UnittestData import UnittestData
 from auria.tests.bases.BaseTest import BaseTest

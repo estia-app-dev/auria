@@ -1,7 +1,7 @@
 from abc import ABC
 
+from auria.Constants import Constants
 from auria.Lang import Lang
-from auria.Constants import BaseConstants
 from auria.utils.DateUtils import DateUtils
 
 
@@ -26,5 +26,5 @@ class UtilsAssertion(ABC):
   @staticmethod
   def langText(txt: str, key: str, language: str):
     assert txt is not None
-    assert txt != BaseConstants.DEFAULT_ERROR_MESSAGE
+    assert txt != Constants.DEFAULT_ERROR_MESSAGE
     assert txt == Lang.getText(language, key)

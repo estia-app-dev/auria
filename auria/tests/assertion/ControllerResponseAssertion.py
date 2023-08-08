@@ -3,8 +3,8 @@ from typing import Optional, Dict
 
 from flask import Response
 
+from auria.Constants import Constants
 from auria.Lang import Lang
-from auria.Constants import BaseConstants
 
 
 class ControllerResponseAssertion(ABC):
@@ -16,7 +16,7 @@ class ControllerResponseAssertion(ABC):
     assert len(response.json) == responseLength + 1  # On ajoute le success = True
 
   @staticmethod
-  def HTTPError(response: Response, errorCode: int, errorData: Optional[Dict] = None, language: str = BaseConstants.DEFAULT_LANGUAGE):
+  def HTTPError(response: Response, errorCode: int, errorData: Optional[Dict] = None, language: str = Constants.DEFAULT_LANGUAGE):
     assert response.status_code == 200
     assert response.json['success'] is False
     assert len(response.json) == 2

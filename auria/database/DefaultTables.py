@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from auria.database.SQLAlchemyDatabase import SQLAlchemyBase
 
 
-class BaseUser(SQLAlchemyBase):
+class UserBase(SQLAlchemyBase):
   __tablename__ = 'users'
   __table_args__ = {**SQLAlchemyBase.__table_args__, **{'extend_existing': True}}
 
@@ -26,7 +26,7 @@ class BaseUser(SQLAlchemyBase):
   def getByPublicId(cls, dbSession, publicId: str, *entities):
     return dbSession \
       .query(*entities) \
-      .filter(BaseUser.public_id == publicId) \
+      .filter(UserBase.public_id == publicId) \
       .one_or_none()
 
 

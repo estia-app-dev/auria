@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Union, Dict, List
 
-from auria.bases.ServiceProviderBase import BaseService
+from auria.bases.ServiceProvider import ServiceProvider
 from auria.database.SQLAlchemyDatabase import dbSessionScope
 from auria.tests.assertion.ExceptionRaisedAssertion import raise_JsonSchemaException
 from auria.tests.bases.BaseTest import BaseTest
@@ -19,7 +19,7 @@ class HandlerBaseTest(BaseTest, ABC):
     if self.HANDLER is None:
       raise ValueError('U have to set HANDLER var')
 
-    with dbSessionScope(BaseService.openDbSession()) as dbSession:  # auto commit
+    with dbSessionScope(ServiceProvider.openDbSession()) as dbSession:  # auto commit
       try:
         return self.HANDLER(dbSession, json).execute()
       finally:

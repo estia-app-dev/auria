@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.orm import Session
 
-from auria.bases.ServiceProviderBase import BaseService
+from auria.bases.ServiceProvider import ServiceProvider
 
 
 class BaseTest(ABC):
@@ -11,7 +11,7 @@ class BaseTest(ABC):
   @property
   def dbSession(self):
     if BaseTest.dbSessionTemp is None:
-      BaseTest.dbSessionTemp = BaseService.openDbSession()
+      BaseTest.dbSessionTemp = ServiceProvider.openDbSession()
     return BaseTest.dbSessionTemp
 
   def teardown_method(self):  # Lorsque que le test se termine

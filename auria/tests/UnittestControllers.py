@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
 from auria.Enums import ExceptionLevelEnum
+from auria.ErrorCodes import ErrorCode
 from auria.Exceptions import ApiAuthError, JsonSchemaException, ApiException, AppException
-from auria.ErrorCodes import BaseErrorCode
-from auria.bases.ControllerBase import BasicsAuthController, BearerTokenController
+from auria.bases.Controller import BearerTokenController, BasicsAuthController
 
 
 # On créé un faux controller qui hérite de BasicsAuthController pour tester la class BasicsAuthController
@@ -33,7 +33,7 @@ class TempTestController:
     if exceptionId == 2:
       raise JsonSchemaException('Wrong email', [])
     if exceptionId == 3:
-      raise ApiException(BaseErrorCode.INTERNAL_ERROR, 'Internal error', data={'id': 5, 'token': 'myToken'})
+      raise ApiException(ErrorCode.INTERNAL_ERROR, 'Internal error', data={'id': 5, 'token': 'myToken'})
     if exceptionId == 4:
       raise AppException('Ooopsi...')
     if exceptionId == 5:
