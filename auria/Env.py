@@ -33,7 +33,7 @@ class Env(ABC):
 
   @staticmethod
   def defineProjectEnvironmentVars(devEnv: DevEnvironmentEnum, debug: bool, serverToken: str, serverAesKey):
-    os.environ['E_ENV'] = devEnv.value
+    os.environ['E_ENV'] = str(devEnv.value)
     os.environ['E_DEBUG'] = str(debug)
     os.environ['E_SERVER_TOKEN'] = serverToken
     os.environ['E_SERVER_AES_KEY'] = serverAesKey
