@@ -30,6 +30,11 @@ class SQLAlchemyDb:
       connect_args={'connect_timeout': dbtimeout}
     )
 
+  @staticmethod
+  def createDatabase(engine):
+    metadata = SQLAlchemyBase.metadata
+    metadata.create_all(engine)
+
 
 @contextmanager
 def dbSessionScope(session):
