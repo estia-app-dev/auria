@@ -1,6 +1,6 @@
 from typing import Optional, Dict, List
 
-from sqlalchemy import String, ForeignKey, SmallInteger, Text
+from sqlalchemy import String, ForeignKey, SmallInteger, Text, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
 from auria.database.SQLAlchemyDatabase import SQLAlchemyBase
@@ -12,6 +12,15 @@ class BaseUser(SQLAlchemyBase):
 
   public_id: Mapped[str] = mapped_column(String(36), unique=True, nullable=False)
   firebase_messaging_token: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+  last_connexion_date = mapped_column(Integer(), nullable=False)
+  #
+  suspended_reason = mapped_column(SmallInteger(), nullable=False)
+  suspended_date = mapped_column(Integer(), nullable=False)
+  suspended_expiration_date = mapped_column(Integer(), nullable=False)
+  #
+  deleted_status = mapped_column(SmallInteger(), nullable=False)  # UserAccountDeletedStatusEnum
+  deleted_retraction_date = mapped_column(Integer(), nullable=False)
+  deleted_date = mapped_column(Integer(), nullable=False)
 
   @classmethod
   def getByPublicId(cls, dbSession, publicId: str, *entities):
@@ -24,7 +33,7 @@ class BaseUser(SQLAlchemyBase):
 class AppErrorLog(SQLAlchemyBase):
   __tablename__ = 'app_error_logs'
 
-  tag: Mapped[str] = mapped_column(String(255), nullable=False)
+  tag = mapped_column(SmallInteger(), nullable=False)
   ip: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
   # -- Données en provenance du client
   http_url: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
@@ -67,29 +76,22 @@ class Setting(SQLAlchemyBase):
 
   @classmethod
   def gets(cls, dbSession, keys: List[str]) -> Dict:
-    rows = dbSession \
+    results = dbSession \
       .query(Setting) \
       .filter(Setting.key.in_(keys)) \
       .all()
 
-    if len(rows) == 0:
+    if not results:
       raise Exception('Setting keys not found')
 
-    settings = {}
-    for setting in rows:
-      settings[setting.key] = setting.value
-    return settings
+    return {r.key: r.value for r in results}
 
   @classmethod
   def getAll(cls, dbSession) -> Dict:
-    rows = dbSession \
+    results = dbSession \
       .query(Setting) \
       .all()
-
-    settings = {}
-    for setting in rows:
-      settings[setting.key] = setting.value
-    return settings
+    return {r.key: r.value for r in results}
 
   @classmethod
   def set(cls, dbSession, key: str, value):
