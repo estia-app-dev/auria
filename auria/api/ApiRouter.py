@@ -6,14 +6,13 @@ from auria.Enums import AppErrorTagEnum, ExceptionLevelEnum
 from auria.Env import Env
 from auria.Exceptions import ApiException, JsonSchemaException, AppException, ApiAuthError
 from auria.api.ApiExceptionManager import ApiExceptionManager
-from auria.bases.ServiceProvider import ServiceProvider
+from auria.ServiceProvider import ServiceProvider
 from auria.database.SQLAlchemyDatabase import dbSessionScope
 from auria.database.factories.AppErrorLogFactory import AppErrorLogFactory
 from auria.utils.ApiUtils import ApiUtils
 from auria.utils.TraceUtils import TraceUtils
 
 indexApi = Blueprint('indexApi', __name__)
-tokenApi = Blueprint('tokenApi', __name__)
 userApi = Blueprint('userApi', __name__)
 # --
 adminApi = Blueprint('adminApi', __name__)
