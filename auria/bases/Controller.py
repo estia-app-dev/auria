@@ -6,9 +6,9 @@ from sqlalchemy.orm import Session
 
 from auria.Enums import MobilePlatformEnum
 from auria.Env import Env
-from auria.Exceptions import ApiAuthError, ApiException
-from auria.api.ApiTokenManager import AppTokenManager, AppToken
 from auria.ErrorCodes import ErrorCode
+from auria.Exceptions import ApiAuthError, ApiException
+from auria.api.ApiTokenManager import ApiToken, ApiTokenManager
 from auria.utils.ApiUtils import ApiUtils
 from auria.utils.TraceUtils import TraceUtils
 
@@ -67,23 +67,23 @@ class BearerTokenController(Controller, ABC):
 
   def __init__(self, dbSession: Session):
     super().__init__(dbSession)
-    self.appToken: AppToken = AppToken().decode(self._decodeHeaderAppToken())
+    self.apiToken: ApiToken = ApiToken().decode(self._decodeHeaderApiToken())
 
     if request.is_json:
       self.json['userId'] = self.userId
 
   @property
   def userId(self):
-    return self.appToken.userId
+    return self.apiToken.userId
 
-  def _decodeHeaderAppToken(self) -> Dict:
-    appToken = request.headers.get("x-appToken", None)
+  def _decodeHeaderApiToken(self) -> Dict:
+    apiToken = request.headers.get("x-appToken", None)
 
-    if appToken is None:
+    if apiToken is None:
       raise ApiAuthError('_decodeHeaderAppToken, appToken is missing')
 
     try:
-      return AppTokenManager(secret=Env.getJWTSecret()).decode(appToken, verify=True)
+      return ApiTokenManager(secret=Env.getJWTSecret()).decode(apiToken, verify=True)
     except Exception as e:
       if Env.inDevMode():
         raise
