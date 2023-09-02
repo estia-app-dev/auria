@@ -35,8 +35,8 @@ class Env(ABC):
   def defineProjectEnvironmentVars(devEnv: DevEnvironmentEnum, debug: bool, serverToken: str, serverAesKey):
     os.environ['E_ENV'] = str(devEnv.value)
     os.environ['E_DEBUG'] = str(debug)
-    os.environ['E_SERVER_TOKEN'] = serverToken
-    os.environ['E_SERVER_AES_KEY'] = serverAesKey
+    os.environ['E_SERVER_TOKEN'] = serverToken  # Chaine random pour faire des actions de masse
+    os.environ['E_SERVER_AES_KEY'] = serverAesKey  # Pour le cryptage des données côté server
 
   @staticmethod
   def defineDatabaseEnvironmentVars(host: str, dbName: str, dbUsername: str, dbPassword: str, echo: bool = False):
@@ -47,14 +47,11 @@ class Env(ABC):
     os.environ['E_DB_PASSWORD'] = dbPassword
 
   @staticmethod
-  def defineApiEnvironmentVars(basicAuthUsername: str, basicAuthPassword: str, minVersion: int):
+  def defineApiEnvironmentVars(basicAuthUsername: str, basicAuthPassword: str, apiJWTSecret: str, minVersion: int):
     Env.upsertRequiredVar('E_BASIC_AUTH_USERNAME', basicAuthUsername)
     Env.upsertRequiredVar('E_BASIC_AUTH_PASSWORD', basicAuthPassword)
+    Env.upsertRequiredVar('E_API_JWT_SECRET', apiJWTSecret)  # Pour l'encodage du BearerToken (voir ApiTokenManager)
     Env.upsertRequiredVar('E_API_MIN_VERSION', str(minVersion))
-
-  @staticmethod
-  def setApiTokenVars(JWTSecret: str):
-    Env.upsertRequiredVar('E_JWT_SECRET', JWTSecret)
 
   @staticmethod
   def upsertRequiredVar(key: str, value):
@@ -135,8 +132,8 @@ class Env(ABC):
     return float(os.getenv('E_API_MIN_VERSION', 0))
 
   @staticmethod
-  def getJWTSecret() -> str:
-    return os.getenv('E_JWT_SECRET', None)
+  def getApiJWTSecret() -> str:
+    return os.getenv('E_API_JWT_SECRET', None)
 
   #######################################################
   #######################################################
@@ -157,6 +154,6 @@ class Env(ABC):
   #######################################################
 
   @staticmethod
-  def trace(*args, sep=' ', end='\n', file=None): # Todo, move or remove (voir TraceUtils.debug)
+  def trace(*args, sep=' ', end='\n', file=None):  # Todo, move or remove (voir TraceUtils.debug)
     if Env.debug():
       TraceUtils.debug(*args, sep, end, file)

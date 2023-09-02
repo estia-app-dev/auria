@@ -17,7 +17,7 @@ class ApiToken:
     self.userId: str = ''
     self.serverToken: str = ''
 
-  def encode(self, userId: str, deviceId: str):
+  def encode(self, userId: str):
     self.userId: str = self.aes.encode(userId)
     self.serverToken: str = Env.getServerToken()
 
@@ -28,7 +28,7 @@ class ApiToken:
   def toDict(self) -> Dict:
     return {
       ApiToken.USER_ID: self.userId,
-      ApiToken.SERVER_TOKEN: Env.getServerToken()
+      ApiToken.SERVER_TOKEN: self.serverToken
     }
 
 
